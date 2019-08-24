@@ -12,7 +12,7 @@ html, body {
 
 #gurmukhi {
     font-size: 60px;
-    color: #393939;
+    color: #545454;
 }
 
 #teeka {
@@ -22,7 +22,7 @@ html, body {
 
 #translation {
     font-size: 30px;
-    color: #161616;
+    color: #595959;
 }
 
 .slide {
@@ -85,6 +85,58 @@ html, body {
     src: url('./../fonts/GURAKHAR.TTF');
 }
 
+@font-face {
+    font-family: gurbani_akhar_heavy;
+    src: url('./../fonts/GURAKH_H.TTF');
+}
+
+@font-face {
+    font-family: gurbani_akhar_large;
+    src: url('./../fonts/GURAKH_L.TTF');
+}
+
+@font-face {
+    font-family: gurbani_akhar_thick;
+    src: url('./../fonts/GUAK_TH.TTF');
+}
+
+@font-face {
+    font-family: "Noto Sans Gurmukhi";
+    font-style: normal;
+    font-weight: normal;
+    src: url("./../fonts/NotoSansGurmukhi-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Noto Sans Medium";
+    font-style: normal;
+    font-weight: normal;
+    src: url("./../fonts/NotoSans-Medium.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Noto Sans Regular";
+    font-style: normal;
+    font-weight: normal;
+    src: url("./../fonts/NotoSans-Regular.ttf") format("truetype");
+}
+
 .gurbani_akhar {
     font-family: gurbani_akhar;
+}
+
+.gurbani_akhar_heavy {
+    font-family: gurbani_akhar_heavy;
+}
+
+.gurbani_akhar_large {
+    font-family: gurbani_akhar_large;
+}
+
+.gurbani_akhar_thick {
+    font-family: gurbani_akhar_thick;
+}
+
+.gurmukhi_akhar {
+    font-family: "Noto Sans Gurmukhi";
 }
