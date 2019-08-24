@@ -208,4 +208,70 @@ $('body').on('keydown', function(e) {
     }
 });
 
+var preferences = {
+};
+
+var user = {
+    loadpreference: function() {
+        db.each('SELECT * FROM user_preferences', function(err, result) {
+            preferences[result.name] = parseInt(result.value);
+        }, function() {
+            $('#gurmukhi').css('fontSize', preferences.gurmukhi_font_size + 'px');
+            $('#teeka').css('fontSize', preferences.teeka_font_size + 'px');
+            $('#translation').css('fontSize', preferences.translation_font_size + 'px');
+            $('#gurmukhi-font-size').val(preferences.gurmukhi_font_size);
+            $('#teeka-font-size').val(preferences.teeka_font_size);
+            $('#translation-font-size').val(preferences.translation_font_size);
+        });
+    },
+    savepreference: function() {
+        db.exec(
+            "UPDATE user_preferences set " +
+                "value = '" + preferences.gurmukhi_font_size + "' "
+                + "WHERE name = 'gurmukhi_font_size';" +
+            "UPDATE user_preferences set " +
+                "value = '" + preferences.teeka_font_size + "' "
+                + "WHERE name = 'teeka_font_size';" +
+            "UPDATE user_preferences set " +
+                "value = '" + preferences.translation_font_size + "' "
+                + "WHERE name = 'translation_font_size';",
+                function(err) {
+                    user.loadpreference();
+                }
+        );
+    },
+    updatepreference: function() {
+        preferences.gurmukhi_font_size = $('#gurmukhi-font-size').val();
+        preferences.teeka_font_size = $('#teeka-font-size').val();
+        preferences.translation_font_size = $('#translation-font-size').val();
+        user.savepreference();
+    }
+};
+
 shabad.loadBanis();
+
+db.run(
+    'CREATE TABLE IF NOT EXISTS "user_preferences" (' +
+	'"id"	INTEGER PRIMARY KEY AUTOINCREMENT,' +
+	'"name"	TEXT,' +
+	'"value"	TEXT' +
+');"', function(err) {
+
+    db.each('SELECT count(*) as count FROM user_preferences', function(err, result) {
+        if (result.count === 0) {
+            db.run("INSERT INTO user_preferences(name, value) VALUES "
+                + "('gurmukhi_font_size', '60'),"
+                + "('teeka_font_size', '40'),"
+                + "('translation_font_size', '30')",
+                function(err) {
+                    user.loadpreference();
+                }
+            );
+        } else {
+            user.loadpreference();
+        }
+    });
+})
+
+
+

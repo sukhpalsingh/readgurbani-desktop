@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Read Gurbani</title>
     <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="./../node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
     <link rel="stylesheet" href="./css/app.css" />
@@ -70,7 +70,20 @@
                 </div>
                 <div id="shabad-tab" class="tab d-none gurbani_akhar"></div>
                 <div id="pothi-tab" class="tab d-none gurbani_akhar"></div>
-                <div id="settings-tab" class="tab d-none gurbani_akhar"></div>
+                <div id="settings-tab" class="tab d-none">
+                    <div class="form-group">
+                        <label for="gurmukhi-font-size">Gurmukhi</label>
+                        <input id="gurmukhi-font-size" type="range" class="form-control-range" value="" onchange="user.updatepreference()">
+                    </div>
+                    <div class="form-group">
+                        <label for="teeka-font-size">Teeka</label>
+                        <input id="teeka-font-size" type="range" class="form-control-range" value="" onchange="user.updatepreference()">
+                    </div>
+                    <div class="form-group">
+                        <label for="translation-font-size">Translation</label>
+                        <input id="translation-font-size" type="range" class="form-control-range" value="" onchange="user.updatepreference()">
+                    </div>
+                </div>
             </div>
             <div class="card-footer p-0">
                 <a id="search-tab-btn" href="#" class='btn btn-text tab-btn outline-none' onclick="template.showPanel('search-tab')">
