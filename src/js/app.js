@@ -40,27 +40,29 @@ var shabad = {
     },
     show: function(id, shabadId) {
         shabad.currentShabad = [];
-        shabad.showPankti(id);
 
         var shabadResult = '';
         db.each(
             "SELECT * FROM lines where shabad_id = '" + shabadId + "'",
             function(err, row) {
-                if (id == row.id) {
-                    shabad.currentLineIndex = shabad.currentShabad.length;
-                }
                 shabad.currentShabad.push(row);
                 shabadResult += template.getShabadLine(row);
+
+                if (id == row.id) {
+                    shabad.showPankti(shabad.currentShabad.length);
+                }
             },
             function() {
-                $('#shabad-tab').html(shabadResult).removeClass('d-none');
-                $('#search-tab').addClass('d-none');
+                $('#shabad-tab').html(shabadResult);
+                template.showPanel('shabad-tab');
                 template.highlightPankti(id);
             }
         );
 
     },
-    showPankti: function(id) {
+    showPankti: function(serial) {
+        shabad.currentLineIndex = serial;
+        var id = shabad.currentShabad[shabad.currentLineIndex - 1].id;
         db.each(
             "SELECT * FROM lines " +
             "LEFT JOIN translations ON lines.id = translations.line_id " +
@@ -79,19 +81,18 @@ var shabad = {
         );
     },
     showNextLine: function() {
-        if ((shabad.currentLineIndex + 1) === shabad.currentShabad.length) {
+        if (shabad.currentLineIndex === shabad.currentShabad.length) {
             return;
         }
 
-        shabad.currentLineIndex++;
-        shabad.showPankti(shabad.currentShabad[shabad.currentLineIndex].id);
+        shabad.showPankti(++shabad.currentLineIndex);
     },
     showPrevLine: function() {
-        if (shabad.currentLineIndex === 0) {
+        if (shabad.currentLineIndex === 1) {
             return;
         }
-        shabad.currentLineIndex--;
-        shabad.showPankti(shabad.currentShabad[shabad.currentLineIndex].id);
+
+        shabad.showPankti(--shabad.currentLineIndex);
     }
 };
 
@@ -102,8 +103,9 @@ var template = {
         + '</li>';
     },
     getShabadLine: function(row) {
+        var serial = shabad.currentShabad.length;
         return '<a id="pankti-' + row.id + '" class="list-group-item list-group-item-action" '
-        + 'onclick="shabad.showPankti(\'' + row.id + '\')">' + template.removePunctuations(row.gurmukhi)
+        + 'onclick="shabad.showPankti(' + serial + ')">' + template.removePunctuations(row.gurmukhi)
         + '</a>';
     },
     showPanktiLine: function(row) {
@@ -127,6 +129,16 @@ var template = {
         $('#shabad-tab').animate({scrollTop: $('#pankti-' + id).offset().top},"fast");
         // var element = document.getElementById('pankti-' + id);
         // element.scrollTo();
+    },
+    showPanel: function(id) {
+        $('.tab').addClass('d-none');
+        $('.tab-btn').addClass('text-muted');
+        $('#' + id).removeClass('d-none');
+        $('#' + id + '-btn').removeClass('text-muted');
+    },
+    togalOverlaySize: function() {
+        $('.overlay-panel .card-body').toggleClass('d-none');
+        $('.overlay-panel .card-footer').toggleClass('d-none');
     }
 };
 

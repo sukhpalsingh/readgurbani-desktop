@@ -10,17 +10,17 @@
   <body>
     <div class="container-fluid slide">
         <div class="row gurbani_akhar">
-            <div id="gurmukhi" class="col-sm-12 text-center">
+            <div id="gurmukhi" class="col-sm-12 text-center font-weight-bold mt-5">
 
             </div>
         </div>
         <div class="row">
-            <div id="teeka" class="col-sm-12 text-center">
+            <div id="teeka" class="col-sm-12 text-center mt-5">
 
             </div>
         </div>
         <div class="row">
-            <div id="translation" class="col-sm-12 text-center">
+            <div id="translation" class="col-sm-12 text-center mt-5">
 
             </div>
         </div>
@@ -33,12 +33,12 @@
     <div class="overlay-panel">
         <div class="card">
             <div class="card-header p-0">
-                <a href="#" class='btn btn-text float-right outline-none'>
+                <a href="#" class='btn btn-text float-right outline-none' onclick="template.togalOverlaySize()">
                     <i class="far fa-window-minimize align-top outline-none"></i>
                 </a>
             </div>
             <div class="card-body">
-                <div id="search-tab">
+                <div id="search-tab" class="tab">
                     <div id="custom-search-input">
                         <div class="input-group input-group-sm">
                             <input
@@ -65,16 +65,17 @@
                         
                     </ul>
                 </div>
-                <div id="shabad-tab" class="d-none gurbani_akhar"></div>
+                <div id="shabad-tab" class="tab d-none gurbani_akhar"></div>
+                <div id="settings-tab" class="tab d-none gurbani_akhar"></div>
             </div>
             <div class="card-footer p-0">
-                <a href="#" class='btn btn-text'>
+                <a id="search-tab-btn" href="#" class='btn btn-text tab-btn outline-none' onclick="template.showPanel('search-tab')">
                     <i class="fas fa-search"></i>
                 </a>
-                <a href="#" class='btn btn-text'>
+                <a id="shabad-tab-btn" href="#" class='btn btn-text tab-btn outline-none text-muted' onclick="template.showPanel('shabad-tab')">
                     <i class="fas fa-list-alt"></i>
                 </a>
-                <a href="#" class='btn btn-text'>
+                <a id="settings-tab-btn" href="#" class='btn btn-text tab-btn outline-none text-muted' onclick="template.showPanel('settings-tab')">
                     <i class="fas fa-cog"></i>
                 </a>
             </div>

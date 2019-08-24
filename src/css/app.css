@@ -13,6 +13,14 @@ html, body {
     font-size: 50px;
 }
 
+#teeka {
+    font-size: 40px;
+}
+
+#translation {
+    font-size: 30px;
+}
+
 .slide {
     height: 100%;
 }
