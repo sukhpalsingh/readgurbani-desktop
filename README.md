@@ -1,12 +1,39 @@
-# Introduction
+# 1. Introduction
 
-Read Gurbani Desktop Application is a desktop application to read gurbani scription.
+**Read Gurbani Desktop Application** is a desktop application to read gurbani scripture.
 
-# Development
+# 2. Development
+
+## Requirements
+
+- git
+- npm (latest version)
 
 ## Installation Steps
 
+### Download code into your machine
+
+```bash
 git clone repository
+```
+
+### Install dependencies
+
+```bash
 npm install
-npm rebuild
+
+npm run rebuild
+
+```
+
+### Run project 
+
+```bash
 npm start
+```
+
+# Contributions
+
+We are greaty thankful to everyone involved in this project to make the dream to become true.
+
+Shabad OS
