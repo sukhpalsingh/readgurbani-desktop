@@ -32,7 +32,7 @@ npm run rebuild
 npm start
 ```
 
-# Contributions
+# 3. Contributions
 
 We are greaty thankful to everyone involved in this project to make the dream to become true.
 
