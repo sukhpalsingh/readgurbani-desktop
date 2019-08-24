@@ -101,13 +101,12 @@ var shabad = {
 
 var template = {
     getSearchLine: function(row) {
-        return '<li class="list-group-item">'
-        + '<a href="#" onclick="shabad.show(\'' + row.id + '\', \'' + row.shabad_id + '\')">' + template.removePunctuations(row.gurmukhi) + '</a>'
-        + '</li>';
+        return '<a href="#" class="list-group-item list-group-item-action" onclick="shabad.show(\'' + row.id + '\', \'' + row.shabad_id + '\')">'
+        + template.removePunctuations(row.gurmukhi) + '</a>';
     },
     getShabadLine: function(row) {
         var serial = shabad.currentShabad.length;
-        return '<a id="pankti-' + row.id + '" class="list-group-item list-group-item-action" '
+        return '<a href="#" id="pankti-' + row.id + '" class="list-group-item list-group-item-action" '
         + 'onclick="shabad.showPankti(' + serial + ')">' + template.removePunctuations(row.gurmukhi)
         + '</a>';
     },
