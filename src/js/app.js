@@ -2,30 +2,11 @@ window.$ = window.jQuery = require('jquery');
 const sqlite3 = require('sqlite3').verbose();
 let db = new sqlite3.Database('./src/database.sqlite');
 
-// register listeners
-$('body').on('keydown', function(e) {
-    if (! $('#shabad-tab').hasClass('d-none')) {
-        if (e.keyCode == 37) {
-            // previous key
-            shabad.showPrevLine();
-        } else if (e.keyCode == 39) {
-            // next key
-            shabad.showNextLine();
-        } else if (e.keyCode == 32) {
-            // space key
-            shabad.showPankti(shabad.currentBookmarkSerial);
-        }
-    } else if (! $('#search-tab').hasClass('d-none')) {
-        if (e.keyCode === 13) {
-            shabad.search();
-        }
-    }
-});
-
 var shabad = {
     currentShabad: [],
     currentLineSerial: 0,
     currentBookmarkSerial: 0,
+    currentSource: 'shabad',
     search: function() {
         var searchText = $('#search-text').val();
         var searchResult = '';
@@ -41,6 +22,7 @@ var shabad = {
         );
     },
     show: function(id, shabadId) {
+        shabad.currentSource = 'shabad';
         shabad.currentShabad = [];
 
         var shabadResult = '';
@@ -82,6 +64,10 @@ var shabad = {
                 template.highlightPankti(id);
             }
         );
+        if (shabad.currentSource === 'baani') {
+            baani.openedId = id;
+            baani.openSerial = serial;
+        }
     },
     showNextLine: function() {
         if (shabad.currentLineSerial === shabad.currentShabad.length) {
@@ -96,6 +82,57 @@ var shabad = {
         }
 
         shabad.showPankti(--shabad.currentLineSerial);
+    },
+    loadBanis: function() {
+        var baniResult = '';
+        db.each(
+            "SELECT * FROM banis",
+            function(err, row) {
+                baniResult += template.getBaniListLine(row);
+            },
+            function() {
+                $('#pothi-tab').html(baniResult);
+            }
+        );
+    }
+};
+
+var baani = {
+    openedId: '',
+    openSerial: 1,
+    show: function(baaniId) {
+        shabad.currentSource = 'baani';
+        shabad.currentShabad = [];
+
+        var shabadResult = '';
+        var matchFound = false;
+        db.each(
+            "SELECT * FROM bani_lines "
+            + "INNER JOIN lines ON bani_lines.line_id = lines.id "
+            + "WHERE bani_id = '" + baaniId + "' "
+            + "ORDER BY line_group, order_id",
+            function(err, row) {
+                shabad.currentShabad.push(row);
+                shabadResult += template.getShabadLine(row);
+
+                if (baani.openedId === '') {
+                    baani.openedId = row.id;
+                } else if (baani.openedId === row.id) {
+                    matchFound = true;
+                }
+            },
+            function() {
+                $('#shabad-tab').html(shabadResult);
+                template.showPanel('shabad-tab');
+                if (matchFound === false) {
+                    baani.openedId = '';
+                    baani.openSerial = 1;
+                }
+
+                shabad.showPankti(baani.openSerial);
+                shabad.currentBookmarkSerial = baani.openSerial;
+            }
+        );
     }
 };
 
@@ -109,6 +146,11 @@ var template = {
         return '<a href="#" id="pankti-' + row.id + '" class="list-group-item list-group-item-action" '
         + 'onclick="shabad.showPankti(' + serial + ')">' + template.removePunctuations(row.gurmukhi)
         + '</a>';
+    },
+    getBaniListLine: function(row) {
+        return '<a href="#" id="baani-' + row.id + '" class="list-group-item list-group-item-action" '
+        + 'onclick="baani.show(' + row.id + ')">' + row.name_gurmukhi
+        + '</a>'
     },
     showPanktiLine: function(row) {
         $('#gurmukhi').html(row.gurmukhi);
@@ -146,3 +188,24 @@ var template = {
     }
 };
 
+// register listeners
+$('body').on('keydown', function(e) {
+    if (! $('#shabad-tab').hasClass('d-none')) {
+        if (e.keyCode == 37) {
+            // previous key
+            shabad.showPrevLine();
+        } else if (e.keyCode == 39) {
+            // next key
+            shabad.showNextLine();
+        } else if (e.keyCode == 32) {
+            // space key
+            shabad.showPankti(shabad.currentBookmarkSerial);
+        }
+    } else if (! $('#search-tab').hasClass('d-none')) {
+        if (e.keyCode === 13) {
+            shabad.search();
+        }
+    }
+});
+
+shabad.loadBanis();
