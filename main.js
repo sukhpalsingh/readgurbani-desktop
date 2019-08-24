@@ -1,25 +1,18 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
-const sqlite3 = require('sqlite3').verbose();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
 function createWindow () {
-    let db = new sqlite3.Database('./src/database.sqlite');
-
-    db.each("SELECT * FROM banis limit 1", function(err, row) {
-        console.log(row);
-    });
-
-    // database.sqlite
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 1000,
     height: 800,
     webPreferences: {
+        nodeIntegration: true
     //   preload: path.join(__dirname, 'preload.js')
     }
   })

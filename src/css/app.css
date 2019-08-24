@@ -1,0 +1,62 @@
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+/* utility classes */
+.outline-none, .outline-none:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.slide {
+    height: 100%;
+}
+
+.overlay-panel {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 40%;
+    height: 40%;
+}
+
+.overlay-panel .card-body {
+    overflow: auto;
+    padding: 5px;
+}
+
+.overlay-panel .card {
+    height: 100%;
+}
+
+/* Custom search input */
+#custom-search-input{
+    border: solid 1px #E4E4E4;
+    border-radius: 6px;
+}
+
+#custom-search-input input{
+    border: 0px;
+}
+
+#custom-search-input input:focus {
+    box-shadow: none;
+}
+
+#custom-search-input button{
+    margin: 2px 0 0 0;
+    background: none;
+    border: 0;
+    color: #666666;
+    padding: 0 8px 0 10px;
+}
+
+@font-face {
+    font-family: gurbani_akhar;
+    src: url('./../fonts/GURAKHAR.TTF');
+}
+
+.gurbani_akhar {
+    font-family: gurbani_akhar;
+}
