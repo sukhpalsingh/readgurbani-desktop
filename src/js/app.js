@@ -3,13 +3,7 @@ const sqlite3 = require('sqlite3').verbose();
 let db = new sqlite3.Database('./src/database.sqlite');
 
 // register listeners
-$("#search-text").on('keyup', function (e) {
-    if (e.keyCode === 13) {
-        shabad.search();
-    }
-});
-
-$('body').on('keyup', function(e) {
+$('body').on('keydown', function(e) {
     if (! $('#shabad-tab').hasClass('d-none')) {
         if (e.keyCode == 37) {
             // previous key
@@ -17,13 +11,21 @@ $('body').on('keyup', function(e) {
         } else if (e.keyCode == 39) {
             // next key
             shabad.showNextLine();
+        } else if (e.keyCode == 32) {
+            // space key
+            shabad.showPankti(shabad.currentBookmarkSerial);
+        }
+    } else if (! $('#search-tab').hasClass('d-none')) {
+        if (e.keyCode === 13) {
+            shabad.search();
         }
     }
 });
 
 var shabad = {
     currentShabad: [],
-    currentLineIndex: 0,
+    currentLineSerial: 0,
+    currentBookmarkSerial: 0,
     search: function() {
         var searchText = $('#search-text').val();
         var searchResult = '';
@@ -50,6 +52,7 @@ var shabad = {
 
                 if (id == row.id) {
                     shabad.showPankti(shabad.currentShabad.length);
+                    shabad.currentBookmarkSerial = shabad.currentShabad.length;
                 }
             },
             function() {
@@ -61,8 +64,8 @@ var shabad = {
 
     },
     showPankti: function(serial) {
-        shabad.currentLineIndex = serial;
-        var id = shabad.currentShabad[shabad.currentLineIndex - 1].id;
+        shabad.currentLineSerial = serial;
+        var id = shabad.currentShabad[shabad.currentLineSerial - 1].id;
         db.each(
             "SELECT * FROM lines " +
             "LEFT JOIN translations ON lines.id = translations.line_id " +
@@ -81,18 +84,18 @@ var shabad = {
         );
     },
     showNextLine: function() {
-        if (shabad.currentLineIndex === shabad.currentShabad.length) {
+        if (shabad.currentLineSerial === shabad.currentShabad.length) {
             return;
         }
 
-        shabad.showPankti(++shabad.currentLineIndex);
+        shabad.showPankti(++shabad.currentLineSerial);
     },
     showPrevLine: function() {
-        if (shabad.currentLineIndex === 1) {
+        if (shabad.currentLineSerial === 1) {
             return;
         }
 
-        shabad.showPankti(--shabad.currentLineIndex);
+        shabad.showPankti(--shabad.currentLineSerial);
     }
 };
 
@@ -137,6 +140,8 @@ var template = {
         $('#' + id + '-btn').removeClass('text-muted');
     },
     togalOverlaySize: function() {
+        $('.overlay-panel').toggleClass('minimised');
+        $('.overlay-panel .window-btn').toggleClass('d-none');
         $('.overlay-panel .card-body').toggleClass('d-none');
         $('.overlay-panel .card-footer').toggleClass('d-none');
     }

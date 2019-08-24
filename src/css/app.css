@@ -33,6 +33,18 @@ html, body {
     height: 40%;
 }
 
+.overlay-panel.minimised {
+    height: 40px;
+}
+
+.overlay-panel.minimised .card {
+    border: none;
+}
+
+.overlay-panel.minimised .card .card-header {
+    background: none;
+}
+
 .overlay-panel .card-body {
     overflow: auto;
     padding: 5px;
