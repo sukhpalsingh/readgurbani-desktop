@@ -29,7 +29,7 @@ var shabad = {
         db.each(
             "SELECT * FROM lines where id = '" + id + "'",
             function(err, row) {
-                $('#gurmukhi').html(row.gurmukhi);
+                $('#gurmukhi').html(template.removePunctuations(row.gurmukhi));
             }
         );
 
@@ -50,16 +50,19 @@ var shabad = {
 var template = {
     getSearchLine: function(row) {
         return '<li class="list-group-item">'
-        + '<a href="#" onclick="shabad.show(\'' + row.id + '\', \'' + row.shabad_id + '\')">' + row.gurmukhi + '</a>'
+        + '<a href="#" onclick="shabad.show(\'' + row.id + '\', \'' + row.shabad_id + '\')">' + template.removePunctuations(row.gurmukhi) + '</a>'
         + '</li>';
     },
     getShabadLine: function(row) {
         return '<li class="list-group-item">'
-        + '<a href="#" onclick="shabad.showPankti(\'' + row.id + '\')">' + row.gurmukhi + '</a>'
+        + '<a href="#" onclick="shabad.showPankti(\'' + row.id + '\')">' + template.removePunctuations(row.gurmukhi) + '</a>'
         + '</li>';
     },
     showPanktiLine: function(row) {
         $('#gurmukhi').html(row.gurmukhi);
+    },
+    removePunctuations(gurmukhi) {
+        return gurmukhi.replace(/;/g, "");
     }
 };
 

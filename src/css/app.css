@@ -9,6 +9,10 @@ html, body {
     box-shadow: none;
 }
 
+#gurmukhi {
+    font-size: 50px;
+}
+
 .slide {
     height: 100%;
 }
