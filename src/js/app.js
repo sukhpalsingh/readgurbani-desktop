@@ -1,6 +1,7 @@
 window.$ = window.jQuery = require('jquery');
 const sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.Database('./src/database.sqlite');
+const path = require('path');
+let db = new sqlite3.Database(path.join(__dirname, 'database.sqlite'));
 
 var shabad = {
     currentShabad: [],

@@ -1,20 +1,64 @@
 {
     "name": "readgurbani-desktop",
     "version": "0.0.1",
+    "description": "Read Gurbani desktop application",
+    "author": "Read Gurbani <admin@readgurbani.com>",
     "main": "main.js",
     "scripts": {
         "start": "electron .",
-        "rebuild": "electron-rebuild -w sqlite3 -p"
+        "rebuild": "electron-rebuild -w sqlite3 -p",
+        "pack": "electron-builder --dir",
+        "dist": "electron-builder -wlm",
+        "postinstall": "electron-builder install-app-deps"
+    },
+    "build": {
+        "appId": "com.readgurbani.desktop",
+        "extraMetadata": {
+            "name": "ReadGurbani"
+        },
+        "win": {
+            "target": [
+                {
+                    "target": "nsis",
+                    "arch": [
+                        "x64"
+                    ]
+                }
+            ]
+        },
+        "mac": {
+            "target": [
+                "dmg"
+            ]
+        },
+        "linux": {
+            "target": [
+                "snap",
+                {
+                    "target": "AppImage",
+                    "arch": [
+                        "x64"
+                    ]
+                },
+                {
+                    "target": "deb",
+                    "arch": [
+                        "x64"
+                    ]
+                }
+            ]
+        }
     },
     "devDependencies": {
-        "electron": "^6.0.3"
+        "electron": "^6.0.3",
+        "electron-builder": "^21.2.0",
+        "electron-rebuild": "^1.8.6",
+        "node-gyp": "^5.0.3"
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.10.2",
         "bootstrap": "^4.3.1",
-        "electron-rebuild": "^1.8.6",
         "jquery": "^3.4.1",
-        "node-gyp": "^5.0.3",
         "sqlite3": "^4.1.0"
     }
 }
