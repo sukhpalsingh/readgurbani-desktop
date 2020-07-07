@@ -7,7 +7,7 @@
         "rebuild": "electron-rebuild -w sqlite3 -p"
     },
     "devDependencies": {
-        "electron": "^6.0.3"
+        "electron": "^7.2.4"
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.10.2",
